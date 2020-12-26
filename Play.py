@@ -31,6 +31,9 @@ class Play:
 
             for event in pygame.event.get():
 
+                if event.type == QUIT:
+                    exit_ = True
+
                 if event.type == KEYDOWN:
 
                     if event.key == K_RIGHT:

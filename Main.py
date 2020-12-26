@@ -1,6 +1,7 @@
 import pygame
 from pygame import init, display, image, Rect, time, QUIT, MOUSEBUTTONDOWN, draw, Surface, transform
 import Play
+import Shop
 
 SIZE = WIDTH, HEIGHT = 1920, 1080
 
@@ -34,7 +35,7 @@ class Main:
             for event in pygame.event.get():
 
                 if event.type == QUIT:
-                    exit_ = False
+                    exit_ = True
 
                 if event.type == MOUSEBUTTONDOWN:
 
@@ -43,7 +44,8 @@ class Main:
                         Play.Play().run()
 
                     if self.shop_btn_rect.collidepoint(event.pos):
-                        pass
+
+                        Shop.Shop().run()
 
 
 if __name__ == '__main__':
