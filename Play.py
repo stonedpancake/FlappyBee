@@ -1,5 +1,5 @@
 import pygame
-from pygame import init, display, image, Rect, time, QUIT, MOUSEBUTTONDOWN, Surface, transform, KEYDOWN, K_RIGHT, K_LEFT
+from pygame import init, display, image, Rect, time, QUIT, MOUSEBUTTONDOWN, Surface, transform, KEYDOWN, K_RIGHT, K_LEFT, K_SPACE
 
 SIZE = WIDTH, HEIGHT = 1920, 1080
 
@@ -40,3 +40,7 @@ class Play:
                     if event.key == K_LEFT:
 
                         self.sprite_x -= 10
+
+                    if event.key == K_SPACE:
+
+                        self.sprite_y -= 10
