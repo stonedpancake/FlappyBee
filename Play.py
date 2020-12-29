@@ -16,16 +16,13 @@ class Play:
 
         self.columns = image.load("./Data/Pictures/Column.png")
 
-        # self.sprite.get_height()
-
-        self.column_gap = 90
+        self.column_gap = 90  # self.sprite.get_height()
         self.column_cut = 40  # CHANGES COLUMN GAP POSITION
-
-        self.column_height = 500 + self.column_cut
-        self.upd_column_height = 710
 
         self.column_x = 1050
         self.column_y = 10
+
+        self.column_height = 444 + self.column_cut
         self.upd_column_y = self.column_y + self.column_height + self.column_gap
 
         self.column = (90, 10, 90, self.column_height)
