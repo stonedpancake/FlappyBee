@@ -16,16 +16,20 @@ class Play:
 
         self.columns = image.load("./Data/Pictures/Column.png")
 
-        self.column_gap = 70
+        # self.sprite.get_height()
 
-        self.column_1 = (10, 10, 80, 451)
-        self.column_2 = (90, 10 + abs(self.column_gap), 90, 500 + self.column_gap)
-        self.column_2_upd = (190, 310 + self.column_gap, 90, 710)
+        self.column_gap = 90
+        self.column_cut = 40  # CHANGES COLUMN GAP POSITION
+
+        self.column_height = 500 + self.column_cut
+        self.upd_column_height = 710
 
         self.column_x = 1050
         self.column_y = 10
-        self.column_crutch = 660 + self.column_gap
-        self.column_crutch_2 = 0
+        self.upd_column_y = self.column_y + self.column_height + self.column_gap
+
+        self.column = (90, 10, 90, self.column_height)
+        self.upd_column = (190, 1000 + self.column_cut, 90, HEIGHT - self.upd_column_y - 10)
 
         self.sprite_x = 50
         self.sprite_y = 470
@@ -35,8 +39,8 @@ class Play:
         self.screen.blit(self.bg_picture, (0, 0))
         self.screen.blit(self.sprite, (self.sprite_x, self.sprite_y))
 
-        self.screen.blit(self.columns, (self.column_x, self.column_y + self.column_crutch_2), self.column_2)
-        self.screen.blit(self.columns, (self.column_x, self.column_y + self.column_crutch), self.column_2_upd)
+        self.screen.blit(self.columns, (self.column_x, self.column_y), self.column)
+        self.screen.blit(self.columns, (self.column_x, self.upd_column_y), self.upd_column)
         display.flip()
 
     def run(self):
@@ -68,3 +72,4 @@ class Play:
                     if event.key == K_SPACE:
 
                         self.sprite_y -= 10
+
