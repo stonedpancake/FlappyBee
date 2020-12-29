@@ -40,13 +40,13 @@ class Main:
                 if event.type == MOUSEBUTTONDOWN:
 
                     if self.play_btn_rect.collidepoint(event.pos):
-
                         Play.Play().run()
 
                     if self.shop_btn_rect.collidepoint(event.pos):
-
                         Shop.Shop().run()
 
 
 if __name__ == '__main__':
     Main().run()
+
+# ADD CHRISTMAS ATMOSPHERE
