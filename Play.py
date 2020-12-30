@@ -39,23 +39,14 @@ class Play:
         self.column_box = Rect(self.column_x, self.column_y, self.column.width, self.column.height)
         self.upd_column_box = Rect(self.column_x, self.upd_column_y, self.upd_column.width, self.upd_column.height)
 
+        self.bg_move = 1920
+
         # COLUMN AND SPRITES PHYSIC
 
     def main(self):
 
-        self.surface.blits(
-            (self.bg_picture, (1920, 0)),
-            (self.bg_picture, (3840, 0)),
-            (self.bg_picture, (5760, 0)),
-            (self.bg_picture, (7680, 0)),
-            (self.bg_picture, (9600, 0)),
-            (self.bg_picture, (11520, 0)),
-            (self.bg_picture, (13440, 0)),
-            (self.bg_picture, (15360, 0)),
-            (self.bg_picture, (17280, 0)),
-            (self.bg_picture, (19200, 0))
-        )
-        display.flip()
+        self.surface.blit(self.bg_picture, (self.bg_move, 0))
+
         self.surface.blit(self.sprite_img, (self.sprite_x, self.sprite_y))
         self.sprite_box = Rect(self.sprite_x + 5, self.sprite_y, self.sprite_width, self.sprite_height)
 
@@ -108,10 +99,12 @@ class Play:
                     if event.key == K_RIGHT and self.move():
 
                         self.sprite_x += 10
+                        self.bg_move -= 100
 
                     if event.key == K_LEFT and self.move():
 
                         self.sprite_x -= 10
+                        self.bg_move += 100
 
                     if event.key == K_SPACE:
 
