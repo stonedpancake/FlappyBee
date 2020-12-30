@@ -28,8 +28,8 @@ class Main:
             clock.tick(60)
 
             self.screen.blit(self.menu_image, (0, 0))
-            # draw.rect(self.screen, (0, 0, 255), self.play_btn_rect, 1)  # NOTE FOR DEVELOPERS
-            # draw.rect(self.screen, (0, 0, 255), Rect((1245, 590), (220, 110)), 1)  # NOTE FOR DEVELOPERS
+            # draw.rect(self.surface, (0, 0, 255), self.play_btn_rect, 1)  # NOTE FOR DEVELOPERS
+            # draw.rect(self.surface, (0, 0, 255), Rect((1245, 590), (220, 110)), 1)  # NOTE FOR DEVELOPERS
             display.flip()
 
             for event in pygame.event.get():
