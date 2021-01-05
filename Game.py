@@ -1,3 +1,5 @@
+from random import choice
+
 import pygame
 from pygame import init, display, image, Rect, time, QUIT, KEYDOWN, K_SPACE, K_RIGHT, K_LEFT, K_UP, K_DOWN, draw
 
@@ -18,8 +20,8 @@ class Game:
 
         # SPRITE
 
-        self.sprite_x = 200
-        self.sprite_y = 450
+        self.sprite_x = 50
+        self.sprite_y = 520
 
         self.sprite_box = Rect(
             self.sprite_x, self.sprite_y,
@@ -28,19 +30,22 @@ class Game:
 
         # COLUMNS
 
+        self.column_move = 0
+
         self.column_width = 90
         self.column_x = 2000
         self.column_y = 0
 
-        self.column_gap_height = 150
+        self.column_gap_y = 500
+
+        self.column_gap_height = 300
         self.column_gap_size = self.column_width, self.column_gap_height
-        self.column_gap_position = self.column_gap_x, self.column_gap_y = self.column_x, 500
+        self.column_gap_position = self.column_x, self.column_gap_y
         self.column_gap = Rect(self.column_gap_position, self.column_gap_size)
 
-        self.column_height = self.column_gap_y
-        self.upd_column_height = HEIGHT - (self.column_height + self.column_gap_height)
+        self.upd_column_height = HEIGHT - (self.column_gap_y + self.column_gap_height)
 
-        self.upd_column_y = self.column_height + self.column_gap_height
+        self.upd_column_y = self.column_gap_y + self.column_gap_height
 
         self.column_on_picture_x = 90
         self.upd_column_on_picture_x = 190
@@ -48,7 +53,7 @@ class Game:
 
         self.column_on_picture = Rect(
             self.column_on_picture_x, self.column_on_picture_y,
-            self.column_width, self.column_height
+            self.column_width, self.column_gap_y
         )
 
         self.upd_column_on_picture = Rect(
@@ -58,13 +63,15 @@ class Game:
 
         self.column_box = Rect(
             self.column_x, self.column_y,
-            self.column_width, self.column_height
+            self.column_width, self.column_gap_y
         )
 
         self.upd_column_box = Rect(
             self.column_x, self.upd_column_y,
-            self.column_width, self.column_height
+            self.column_width, self.column_gap_y
         )
+
+        self.boxes_list = []
 
     def draw(self):
 
@@ -73,25 +80,53 @@ class Game:
 
         if not self.dead() and self.start:
 
-            if self.column_x + self.column_width >= 0:
+            self.column_x = 1920
 
-                self.column_x -= 3.5
+            self.screen.blit(self.columns_picture, (self.column_x - self.column_move, self.column_y), self.column_on_picture)
+            self.screen.blit(self.columns_picture, (self.column_x, self.upd_column_y), self.upd_column_on_picture)
 
-                self.screen.blit(self.columns_picture, (self.column_x, self.column_y), self.column_on_picture)
-                self.screen.blit(self.columns_picture, (self.column_x, self.upd_column_y), self.upd_column_on_picture)
+            for i in range(5):
+                self.column_move += 0.75
+                self.draw_column()
 
-            else:
+    def draw_column(self):
 
-                self.column_x = 2000
+        self.update_boxes()
+
+        if self.column_x - self.column_move > 0:
+            self.column_x += 300  # SPACE BETWEEN COLUMNS
+        else:
+            self.column_move = 0
+            # self.draw_column()
+        self.column_gap_position = choice(range(300, 700, 10))
+        self.upd_column_height = HEIGHT - (self.column_gap_y + self.column_gap_height)
+
+        self.column_on_picture = Rect(
+            self.column_on_picture_x, self.column_on_picture_y,
+            self.column_width, self.column_gap_y
+        )
+
+        self.upd_column_on_picture = Rect(
+            self.upd_column_on_picture_x, self.column_on_picture_y,
+            self.column_width, self.upd_column_height
+        )
+
+        self.screen.blit(self.columns_picture, (self.column_x - self.column_move, self.column_y), self.column_on_picture)
+        self.screen.blit(self.columns_picture, (self.column_x - self.column_move, self.upd_column_y), self.upd_column_on_picture)
 
     def dead(self):
 
         self.update_boxes()
 
-        if self.column_box.colliderect(self.sprite_box) or self.upd_column_box.colliderect(self.sprite_box):
-            return True
-        if self.sprite_y >= HEIGHT:
-            return True
+        for boxes in self.boxes_list:
+
+            for box in boxes:
+
+                if box.colliderect(self.sprite_box):
+                    return True
+                if self.sprite_y >= HEIGHT:
+                    return True
+
         return False
 
     def update_boxes(self):
@@ -102,18 +137,21 @@ class Game:
         )
 
         self.column_box = Rect(
-            self.column_x, self.column_y,
-            self.column_width, self.column_height
+            self.column_x - self.column_move, self.column_y,
+            self.column_width, self.column_gap_y
         )
 
         self.upd_column_box = Rect(
-            self.column_x, self.upd_column_y,
-            self.column_width, self.column_height
+            self.column_x - self.column_move, self.upd_column_y,
+            self.column_width, self.column_gap_y
         )
 
         draw.rect(self.screen, (0, 0, 255), self.sprite_box, 1)
         draw.rect(self.screen, (0, 0, 255), self.column_box, 1)
         draw.rect(self.screen, (0, 0, 255), self.upd_column_box, 1)
+
+        if [self.column_box, self.upd_column_box] not in self.boxes_list:
+            self.boxes_list.append([self.column_box, self.upd_column_box])
 
     def run(self):
 
