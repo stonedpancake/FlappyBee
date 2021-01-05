@@ -1,7 +1,7 @@
 import pygame
-from pygame import init, display, image, Rect, time, QUIT, MOUSEBUTTONDOWN, draw, Surface, transform
-import Play
+import Game
 import Shop
+from pygame import init, display, image, Rect, time, QUIT, MOUSEBUTTONDOWN
 
 SIZE = WIDTH, HEIGHT = 1920, 1080
 
@@ -13,8 +13,8 @@ class Main:
         init()
         display.set_caption('Flappy Bee')
         self.screen = display.set_mode(SIZE)
-
         self.menu_image = image.load("./Data/Pictures/MENU.png")
+
         self.play_btn_rect = Rect((1220, 475), (220, 100))
         self.shop_btn_rect = Rect((1245, 590), (220, 110))
 
@@ -38,7 +38,7 @@ class Main:
                 if event.type == MOUSEBUTTONDOWN:
 
                     if self.play_btn_rect.collidepoint(event.pos):
-                        Play.Play().run()
+                        Game.Game().run()
 
                     if self.shop_btn_rect.collidepoint(event.pos):
                         Shop.Shop().run()
@@ -46,5 +46,3 @@ class Main:
 
 if __name__ == '__main__':
     Main().run()
-
-# ADD CHRISTMAS ATMOSPHERE
