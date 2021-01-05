@@ -22,13 +22,13 @@ class Play:
         self.sprite_img = image.load("./Data/Sprites/bee2.png")
         self.columns = image.load("./Data/Pictures/Column.png")
 
-        self.sprite_x = 50 + 150
+        self.sprite_x = 200
         self.sprite_y = 470
         self.sprite_width = self.sprite_img.get_width() - 12
         self.sprite_height = self.sprite_img.get_height() - 12
 
         self.column_gap = 200  # CHANGES COLUMN GAP SIZE
-        self.column_cut = choice(range(-200, 200, 10))  # CHANGES COLUMN GAP POSITION
+        self.column_cut = -200  # CHANGES COLUMN GAP POSITION
 
         self.column_x = 2200
         self.column_y = 0
@@ -38,7 +38,7 @@ class Play:
         self.upd_column_y = self.column_y + self.column_height + self.column_gap
 
         self.column = Rect(90, 1000, self.column_width, self.column_height)
-        self.upd_column = Rect(190, 1000 + self.column_cut, self.column_width, HEIGHT - self.upd_column_y + 10)
+        self.upd_column = Rect(190, 1000, self.column_width, self.upd_column_y)
 
         self.column_box = Rect(self.column_x, self.column_y, self.column.width, self.column.height)
         self.upd_column_box = Rect(self.column_x, self.upd_column_y, self.upd_column.width, self.upd_column.height)
@@ -46,6 +46,45 @@ class Play:
         # self.bg_move = ((self.sprite_x + self.sprite_width) // 1920) * 1920
 
         # COLUMN AND SPRITES PHYSIC
+
+    def columns_draw(self):
+
+        if not self.dead() and self.start:
+
+            for i in range(10):
+
+                self.column_cut = choice(range(-200, 200, 10))
+                self.column_x += 300
+                self.column_height = 450 + self.column_cut
+                self.upd_column = Rect(190, 1000 + self.column_cut, self.column_width, HEIGHT - self.upd_column_y + 10)
+
+                self.column = Rect(90, 1000, self.column_width, self.column_height)
+                self.upd_column = Rect(190, 1000, self.column_width, HEIGHT - self.upd_column_y + 10)
+
+                self.surface.blit(self.columns, (self.column_x, self.column_y), self.column)
+                self.surface.blit(self.columns, (self.column_x, self.upd_column_y), self.upd_column)
+
+                print()
+                print('----------------------------------------')
+                print()
+
+                print(f'Column X : {self.column_x}')
+                print(f'Column Y : {self.column_y}')
+                print(f'UPD Column Y : {self.upd_column_y}')
+
+                print()
+
+                print(f'Column : {self.column}')
+                print(f'UPD Column : {self.column}')
+
+                print()
+
+                print(f'Column CUT : {self.column_cut}')
+                print(f'Column HEIGHT : {self.column_height}')
+                print()
+                print('----------------------------------------')
+
+            self.column_x = 2000
 
     def main(self):
 
@@ -62,19 +101,41 @@ class Play:
 
             if self.column_x + self.column_width >= 0:
 
-                self.column = Rect(90, 1000, self.column_width, self.column_height)
-                self.upd_column = Rect(190, 1000 + self.column_cut, self.column_width, HEIGHT - self.upd_column_y + 10)
+                '''self.column = Rect(90, 1000, self.column_width, self.column_height)
+                self.upd_column = Rect(190, 1000 + self.column_cut, self.column_width, HEIGHT - self.upd_column_y + 10)'''
                 self.surface.blit(self.columns, (self.column_x, self.column_y), self.column)
                 self.surface.blit(self.columns, (self.column_x, self.upd_column_y), self.upd_column)
 
             else:
-
                 self.column_x = 2000
-                self.column_cut = choice(range(-200, 200, 10)
+                '''while not self.dead():
+
+                    self.column_x += 300
+                    self.surface.blit(self.columns, (self.column_x, self.column_y), self.column)
+                    self.surface.blit(self.columns, (self.column_x, self.upd_column_y), self.upd_column)
+
+                    self.main_screen.blit(self.surface, (0, 0))
+                    display.flip()'''
+
+                '''self.column_cut = choice(range(-200, 200, 10))
+                self.column_x += 300
+                #self.column_height = 450 + self.column_cut
+                self.upd_column = Rect(190, 1000 + self.column_cut, self.column_width, HEIGHT - self.upd_column_y + 10)
+
+                self.column = Rect(90, 1000, self.column_width, self.column_height)
+                self.upd_column = Rect(190, 1000 + self.column_cut, self.column_width, HEIGHT - self.upd_column_y + 10)
+
+                self.surface.blit(self.columns, (self.column_x, self.column_y), self.column)
+                self.surface.blit(self.columns, (self.column_x, self.upd_column_y), self.upd_column)'''
+
+                # self.columns_draw()
+                # self.column_cut = choice(range(-200, 200, 10))
                 # self.update('column')
 
             self.column_box = Rect(self.column_x, self.column_y, self.column.width, self.column.height)
             self.upd_column_box = Rect(self.column_x, self.upd_column_y, self.upd_column.width, self.upd_column.height)
+
+
 
         # DRAW COLUMNS
 
