@@ -1,5 +1,5 @@
 import pygame
-from pygame import init, display, image, Rect, time, QUIT, KEYDOWN, K_SPACE, K_RIGHT, K_LEFT, K_UP, K_DOWN
+from pygame import init, display, image, Rect, time, QUIT, KEYDOWN, K_SPACE, K_RIGHT, K_LEFT, K_UP, K_DOWN, draw
 
 SIZE = WIDTH, HEIGHT = 1920, 1080
 
@@ -22,7 +22,7 @@ class Game:
         self.sprite_y = 450
 
         self.sprite_box = Rect(
-            self.sprite_x, self.sprite_x,
+            self.sprite_x, self.sprite_y,
             self.sprite_img.get_width(), self.sprite_img.get_height()
         )
 
@@ -70,18 +70,15 @@ class Game:
 
         self.screen.blit(self.bg_picture, (0, 0))
         self.screen.blit(self.sprite_img, (self.sprite_x, self.sprite_y))
-        display.flip()
 
         if not self.dead() and self.start:
 
             if self.column_x + self.column_width >= 0:
 
-                self.column_x -= 50
+                self.column_x -= 3.5
 
                 self.screen.blit(self.columns_picture, (self.column_x, self.column_y), self.column_on_picture)
                 self.screen.blit(self.columns_picture, (self.column_x, self.upd_column_y), self.upd_column_on_picture)
-
-                display.flip()
 
             else:
 
@@ -89,11 +86,34 @@ class Game:
 
     def dead(self):
 
+        self.update_boxes()
+
         if self.column_box.colliderect(self.sprite_box) or self.upd_column_box.colliderect(self.sprite_box):
             return True
         if self.sprite_y >= HEIGHT:
             return True
         return False
+
+    def update_boxes(self):
+
+        self.sprite_box = Rect(
+            self.sprite_x, self.sprite_y,
+            self.sprite_img.get_width(), self.sprite_img.get_height()
+        )
+
+        self.column_box = Rect(
+            self.column_x, self.column_y,
+            self.column_width, self.column_height
+        )
+
+        self.upd_column_box = Rect(
+            self.column_x, self.upd_column_y,
+            self.column_width, self.column_height
+        )
+
+        draw.rect(self.screen, (0, 0, 255), self.sprite_box, 1)
+        draw.rect(self.screen, (0, 0, 255), self.column_box, 1)
+        draw.rect(self.screen, (0, 0, 255), self.upd_column_box, 1)
 
     def run(self):
 
@@ -102,13 +122,14 @@ class Game:
 
         while not exit_:
 
+            clock.tick(60)
+            self.draw()
+            display.flip()
+
             for event in pygame.event.get():
 
-                clock.tick(60)
-                self.draw()
-
                 if event.type == QUIT:
-                    break
+                    exit_ = True
 
                 if event.type == KEYDOWN:
 
