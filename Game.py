@@ -1,5 +1,4 @@
 from random import choice
-
 import pygame
 from pygame import init, display, image, Rect, time, QUIT, KEYDOWN, K_SPACE, K_RIGHT, K_LEFT, K_UP, K_DOWN, draw
 
@@ -36,7 +35,10 @@ class Game:
         self.column_x = 2000
         self.column_y = 0
 
-        self.column_gap_y = 500
+        self.column_gap_y = 300
+
+        #self.column_gap_list = [choice(range(300, 700, 10)) for i in range(50)]
+        self.column_gap_list = [600 for i in range(50)]
 
         self.column_gap_height = 300
         self.column_gap_size = self.column_width, self.column_gap_height
@@ -85,38 +87,30 @@ class Game:
             self.screen.blit(self.columns_picture, (self.column_x - self.column_move, self.column_y), self.column_on_picture)
             self.screen.blit(self.columns_picture, (self.column_x, self.upd_column_y), self.upd_column_on_picture)
 
-            for i in range(5):
-                self.column_move += 0.75
-                self.draw_column()
+            self.infinite_columns()
 
-    def draw_column(self):
+    def infinite_columns(self):
 
-        self.update_boxes()
+        for i in range(10):
+            self.column_move += 0.1
+            self.column_gap_y = self.column_gap_list[i]
+            self.draw_column(self.column_gap_y)
 
-        if self.column_x - self.column_move > 0:
+    def draw_column(self, i):
+
+        self.update_boxes(i)
+
+        '''if self.column_x - self.column_move > 0:
             self.column_x += 300  # SPACE BETWEEN COLUMNS
         else:
-            self.column_move = 0
-            # self.draw_column()
-        self.column_gap_position = choice(range(300, 700, 10))
-        self.upd_column_height = HEIGHT - (self.column_gap_y + self.column_gap_height)
+            self.column_move = 0'''
 
-        self.column_on_picture = Rect(
-            self.column_on_picture_x, self.column_on_picture_y,
-            self.column_width, self.column_gap_y
-        )
-
-        self.upd_column_on_picture = Rect(
-            self.upd_column_on_picture_x, self.column_on_picture_y,
-            self.column_width, self.upd_column_height
-        )
+        self.column_x += 300
 
         self.screen.blit(self.columns_picture, (self.column_x - self.column_move, self.column_y), self.column_on_picture)
         self.screen.blit(self.columns_picture, (self.column_x - self.column_move, self.upd_column_y), self.upd_column_on_picture)
 
     def dead(self):
-
-        self.update_boxes()
 
         for boxes in self.boxes_list:
 
@@ -129,7 +123,22 @@ class Game:
 
         return False
 
-    def update_boxes(self):
+    def update_boxes(self, i):
+
+        #self.upd_column_height = HEIGHT - (self.column_gap_y + self.column_gap_height)
+        #self.upd_column_y = self.column_gap_y + self.column_gap_height
+
+        self.column_gap_y = i - self.column_gap_height
+
+        self.column_on_picture = Rect(
+            self.column_on_picture_x, self.column_on_picture_y,
+            self.column_width, self.column_gap_y
+        )
+
+        self.upd_column_on_picture = Rect(
+            self.upd_column_on_picture_x, self.column_on_picture_y,
+            self.column_width, self.upd_column_height
+        )
 
         self.sprite_box = Rect(
             self.sprite_x, self.sprite_y,
@@ -153,6 +162,8 @@ class Game:
         if [self.column_box, self.upd_column_box] not in self.boxes_list:
             self.boxes_list.append([self.column_box, self.upd_column_box])
 
+        return [self.column_box, self.upd_column_box]
+
     def run(self):
 
         exit_ = False
@@ -160,7 +171,7 @@ class Game:
 
         while not exit_:
 
-            clock.tick(60)
+            clock.tick(120)
             self.draw()
             display.flip()
 
