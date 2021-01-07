@@ -1,7 +1,12 @@
+import webbrowser
+
 import pygame
 import Game
+import Settings
 import Shop
-from pygame import init, display, image, Rect, time, QUIT, MOUSEBUTTONDOWN
+from pygame import init, display, image, Rect, time, QUIT, MOUSEBUTTONDOWN, font, Color, draw
+
+import User
 
 SIZE = WIDTH, HEIGHT = 1920, 1080
 
@@ -13,10 +18,13 @@ class Main:
         init()
         display.set_caption('Flappy Bee')
         self.screen = display.set_mode(SIZE)
-        self.menu_image = image.load("./Data/Pictures/MENU.png")
+        self.menu_image = image.load("./Data/Pictures/Menu_3.png")
+        self.settings_image = image.load("./Data/Pictures/Settings.png")
 
-        self.play_btn_rect = Rect((1220, 475), (220, 100))
-        self.shop_btn_rect = Rect((1245, 590), (220, 110))
+        self.play_btn_rect = Rect((893, 473), (135, 135))
+        self.settings_btn_rect = Rect((1810, 50), (60, 60))
+        self.user_btn_rect = Rect((1720, 50), (60, 60))
+        self.logo_btn_rect = Rect((1410, 50), (280, 60))
 
     def run(self):
 
@@ -28,6 +36,7 @@ class Main:
             clock.tick(60)
 
             self.screen.blit(self.menu_image, (0, 0))
+
             display.flip()
 
             for event in pygame.event.get():
@@ -40,8 +49,14 @@ class Main:
                     if self.play_btn_rect.collidepoint(event.pos):
                         Game.Game().run()
 
-                    if self.shop_btn_rect.collidepoint(event.pos):
-                        Shop.Shop().run()
+                    if self.settings_btn_rect.collidepoint(event.pos):
+                        Settings.Settings().run()
+
+                    if self.user_btn_rect.collidepoint(event.pos):
+                        User.User().run()
+
+                    if self.logo_btn_rect.collidepoint(event.pos):
+                        webbrowser.open('https://github.com/stonedpancake/FlappyBee.git', new=2)
 
 
 if __name__ == '__main__':

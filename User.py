@@ -4,7 +4,7 @@ from pygame import init, display, image, Rect, time, QUIT
 SIZE = WIDTH, HEIGHT = 1920, 1080
 
 
-class Shop:
+class User:
 
     def __init__(self):
 

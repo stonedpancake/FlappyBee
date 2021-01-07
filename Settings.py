@@ -1,16 +1,17 @@
 import pygame
-from pygame import init, display, image, Rect, time, QUIT
+from pygame import init, display, image, Rect, time, QUIT, KEYDOWN, K_SPACE, K_RIGHT, K_LEFT, K_UP, K_DOWN, draw
 
 SIZE = WIDTH, HEIGHT = 1920, 1080
 
 
-class Shop:
+class Settings:
 
     def __init__(self):
 
         init()
         self.screen = display.set_mode(SIZE)
-        self.shop_image = image.load("./Data/Pictures/SHOP.png")
+
+        self.settings_image = image.load("./Data/Pictures/Settings.png")
 
     def run(self):
 
@@ -21,7 +22,7 @@ class Shop:
 
             clock.tick(60)
 
-            self.screen.blit(self.shop_image, (0, 0))
+            self.screen.blit(self.settings_image, (0, 0))
 
             display.flip()
 
@@ -29,3 +30,4 @@ class Shop:
 
                 if event.type == QUIT:
                     exit_ = True
+
