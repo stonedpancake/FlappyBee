@@ -15,7 +15,7 @@ class Game:
 
         self.bg_picture = image.load("./Data/Pictures/bg_retrowave.jpg")
         self.columns_picture = image.load("./Data/Pictures/Column.png")
-        self.sprite_img = image.load("./Data/Sprites/bee2.png")
+        self.sprite_img = image.load("./Data/Sprites/tw_bird_orange.png")
 
         # SPRITE
 
